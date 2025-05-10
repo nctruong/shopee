@@ -1,0 +1,13 @@
+apiVersion: skaffold/v4beta11
+kind: Config
+metadata:
+  name: shopee
+build:
+  artifacts:
+    - image: willnguyen/auth-service
+      context: auth-service
+      docker:
+        dockerfile: Dockerfile
+manifests:
+  rawYaml:
+    - infra/k8s/auth-service-depl.yml
