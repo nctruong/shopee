@@ -21,7 +21,7 @@ router.post("/api/users/signup",
             }
         })
     ],
-    (req: any, res: any) => {
+    async (req: Request, res: Response) => {
         const errors = validationResult(req)
 
         if (!errors.isEmpty()) {
@@ -32,7 +32,8 @@ router.post("/api/users/signup",
                 }
                 return { message: err.msg };
             });
-            return res.status(400).send({ errors: formattedErrors });
+            res.status(400).send({ errors: formattedErrors });
+            return
         }
         const {email, password, username} = req.body
 
