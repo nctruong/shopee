@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-mongoose-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth-mongoose
+  template:
+    metadata:
+      labels:
+        app: auth-mongoose
+    spec:
+      containers:
+        - name: auth-mongoose
+          image: mongo
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-mongoose-service
+spec:
+  selector:
+    app: auth-mongoose
+  ports:
+    - name: auth-mongoose
+      protocol: TCP
+      port: 27017
+      targetPort: 27017

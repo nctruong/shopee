@@ -16,7 +16,6 @@ router.post("/api/users/signup",
         body('username').notEmpty().withMessage('Username is required'),
         body('role').custom (async role => {
             if (role !== 'member') {
-                console.log('role', role);
                 throw new Error('Only members are allowed');
             }
         })
