@@ -1,6 +1,6 @@
-import express, { Request, Response } from "express";
-import {body, query, validationResult} from "express-validator";
-import {ValidationError} from "express-validator";
+import express, {Request, Response} from "express";
+import {body} from "express-validator";
+import {handleErrors} from "../middlewares/handle-errors";
 
 const router = express.Router();
 
@@ -21,20 +21,8 @@ router.post("/api/users/signup",
             }
         })
     ],
+    handleErrors,
     async (req: Request, res: Response) => {
-        const errors = validationResult(req)
-
-        if (!errors.isEmpty()) {
-            const formattedErrors = errors.array().map((err: ValidationError) => {
-                console.log(JSON.stringify(err));
-                if (err.type === 'field') {
-                    return { message: err.msg, field: err.path };
-                }
-                return { message: err.msg };
-            });
-            res.status(400).send({ errors: formattedErrors });
-            return
-        }
         const {email, password, username} = req.body
 
         res.send({email, password, username})
