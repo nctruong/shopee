@@ -8,6 +8,13 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
+    },
+    role: {
+        type: String,
+        required: true,
+    },
+    username: {
+        type: String,
     }
 })
 userSchema.statics.build = (attrs: UserAttributes) => {
@@ -18,6 +25,8 @@ userSchema.statics.build = (attrs: UserAttributes) => {
 interface UserAttributes {
     email: string;
     password: string;
+    role: string;
+    username: string;
 }
 interface UserModel extends mongoose.Model<UserDoc> {
     build(attrs: UserAttributes): UserDoc
@@ -25,6 +34,8 @@ interface UserModel extends mongoose.Model<UserDoc> {
 interface UserDoc extends mongoose.Document {
     email: string;
     password: string;
+    role: string;
+    username: string;
 }
 
 const User = mongoose.model<UserDoc, UserModel>("User", userSchema);

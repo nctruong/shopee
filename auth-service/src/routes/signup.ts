@@ -1,6 +1,7 @@
 import express, {Request, Response} from "express";
 import {body} from "express-validator";
 import {handleErrors} from "../middlewares/handle-errors";
+import { User } from "../models/user";
 
 const router = express.Router();
 
@@ -22,9 +23,18 @@ router.post("/api/users/signup",
     ],
     handleErrors,
     async (req: Request, res: Response) => {
-        const {email, password, username} = req.body
+        const {email, password, username, role} = req.body
+        const existingUser = await User.findOne({ email });
 
-        res.send({email, password, username})
+        if (existingUser) {
+            console.log('email already exists');
+            res.send({errors: [{msg: 'Email already exists'}]});
+            return
+        } else {
+            const user = User.build({email, password, username, role});
+            await user.save()
+            res.send(user)
+        }
     })
 
 export {router as signupRouter}
