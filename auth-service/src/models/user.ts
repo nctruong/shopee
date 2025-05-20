@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { PasswordService } from "../services/password"
 
 const userSchema = new mongoose.Schema({
     email: {
@@ -20,7 +21,13 @@ const userSchema = new mongoose.Schema({
 userSchema.statics.build = (attrs: UserAttributes) => {
     return new User(attrs);
 }
-
+userSchema.pre('save', async function(done) {
+    if (this.isModified("password")) {
+        const hashed = await PasswordService.toHash(this.get('password'));
+        this.set('password', hashed);
+    }
+    done()
+})
 // User interface to force inputting the correct attributes
 interface UserAttributes {
     email: string;
