@@ -3,6 +3,7 @@ import {body} from "express-validator";
 import jwt from "jsonwebtoken";
 import {handleErrors} from "../middlewares/handle-errors";
 import {User} from "../models/user";
+import {validateRequest} from "../middlewares/validate-request";
 
 const router = express.Router();
 
@@ -28,7 +29,7 @@ router.post("/api/users/signup",
             }
         })
     ],
-    handleErrors,
+    validateRequest,
     async (req: Request, res: Response) => {
         const {email, password, username, role} = req.body
         const existingUser = await User.findOne({email});
