@@ -1,14 +1,13 @@
-import express from "express";
-import { body } from "express-validator"
+import express, {Request, Response} from "express";
+import {body} from "express-validator"
 
 const router = express.Router();
 
-router.post("/api/users/signout", (req, res) => {
-    const { email, password } = req.body
-
-    if (!email || typeof email !== 'string') {
-        res.status(400).send('invalid email')
+router.post("/api/users/signout",
+    (req: Request, res: Response) => {
+        req.session = null
+        res.send( {currentUser: null})
     }
-})
+)
 
-export { router as signoutRouter }
+export {router as signoutRouter}
