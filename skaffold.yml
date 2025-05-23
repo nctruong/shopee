@@ -17,5 +17,13 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
+    - image: willnguyen/client-service
+      context: client-service
+      docker:
+        dockerfile: Dockerfile
+      sync: # listen for files changes and deploy to dest which is in container
+        manual:
+          - src: '**/*.js'
+            dest: .
 
 # build, listen, build...
