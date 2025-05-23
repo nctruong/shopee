@@ -103,3 +103,17 @@ it('returns 400 with user existed', async function() {
         })
         .expect(400)
 })
+
+it('sets a cookie after successful signup', async () => {
+    const response = await request(app)
+        .post('/api/users/signup')
+        .send({
+            email: "test@test.com",
+            password: "123453we4",
+            role: "member",
+            username: "test@test.com",
+        })
+        .expect(201);
+
+    expect(response.get('Set-Cookie')).toBeDefined();
+});

@@ -12,7 +12,7 @@ const app = express();
 app.set('trust proxy', true); // trust ingress
 app.use(cookieSession({
     signed: false, // disable encryption bcs we encrypted password already
-    secure: true // force ssl
+    secure: process.env.NODE_ENV !== 'test' // force ssl
 }))
 
 app.use(json());
