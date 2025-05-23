@@ -22,18 +22,17 @@ router.post("/api/users/signup",
             .trim()
             .isLength({min: 4, max: 20})
             .withMessage('Pass must be between 4 and 20 chars'),
-        body('username').notEmpty().withMessage('Username is required'),
-        body('role').custom(async role => {
-            if (role !== 'member') {
-                throw new Error('Only members are allowed');
-            }
-        })
+        // body('username').notEmpty().withMessage('Username is required'),
+        // body('role').custom(async role => {
+        //     if (role !== 'member') {
+        //         throw new Error('Only members are allowed');
+        //     }
+        // })
     ],
     validateRequest,
     async (req: Request, res: Response) => {
-        const {email, password, username, role} = req.body
-        const existingUser = await User.findOne({email});
-        const user = User.build({email, password, username, role});
+        const {email, password} = req.body
+        const user = User.build({email, password});
         await user.save()
 
         const userJwt = jwt.sign({
