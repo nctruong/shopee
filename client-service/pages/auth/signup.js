@@ -1,24 +1,27 @@
 import {useState} from 'react'
-import axios from "axios";
+import Router from 'next/router'
+import useRequest from '../../hooks/use-request'
 
 export default () => {
     const [email, setEmail] = useState('test@example.com');
     const [password, setPassword] = useState('235r44343')
-    const [errors, setErrors] = useState('')
+
+    const {doRequest, errors} = useRequest({
+        url: '/api/users/signup',
+        method: 'post',
+        body: {email, password},
+        onSuccess: async () => {
+            console.log("Redirecting...");
+            await Router.push('/')
+        }
+    })
 
     const onSubmit = async (e) => {
         e.preventDefault()
-        try {
-            const res = await axios.post('/api/users/signup', {
-                email, password
-            })
-        } catch (e) {
-            setErrors(e.response.data.errors)
-            console.error(e.response.data.errors)
-        }
+        await doRequest()
     }
 
-    return <form onSubmit={onSubmit} className="flex">
+    return <form onSubmit={onSubmit} className="">
         <h1>Sign up</h1>
         <div className={"form-group"}>
             <label htmlFor="email">Email</label>
@@ -31,15 +34,7 @@ export default () => {
             <input value={password} onChange={e => setPassword(e.target.value)} className="form-control" id="password"
                    type="password" placeholder="Password"/>
         </div>
-        {errors.length > 0 && (
-            <div className={"alert alert-danger"}>
-                <ul className={"list-group my-0"}>
-                    {errors.map(err => (
-                        <li>{err.message}</li>
-                    ))}
-                </ul>
-            </div>
-        )}
+        {errors}
         <button type="submit btn btn-primary">Sign up</button>
 
         <div
