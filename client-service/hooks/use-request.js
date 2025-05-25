@@ -6,8 +6,9 @@ export default function useRequest({ url, method, body, onSuccess }) {
     const [errors, setErrors] = useState(null)
     const doRequest = async () => {
         try {
+            console.log(`doRequest called`)
             setErrors(null)
-            const response = await buildClient.request({
+            const response = await axios.request({
                 method,
                 url,
                 data: body,

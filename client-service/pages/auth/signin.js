@@ -3,8 +3,8 @@ import useRequest from "../../hooks/use-request.js";
 import Router from "next/router";
 
 export default () => {
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+    const [email, setEmail] = useState('test@example.com')
+    const [password, setPassword] = useState('1234')
 
     const { doRequest, errors } = useRequest({
         url: '/api/users/signin',
@@ -31,7 +31,7 @@ export default () => {
                    type="password" placeholder="Password"/>
         </div>
         {errors}
-        <button type="submit btn btn-primary">Sign up</button>
+        <button type="submit btn btn-primary">Sign In</button>
 
     </form>
 }
