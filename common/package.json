@@ -1,0 +1,21 @@
+{
+  "name": "@willnguyen/common",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "willnguyen",
+  "type": "commonjs",
+  "types": "./build/index.d.ts",
+  "main": "./build/index.js",
+  "files": [
+    "build/**/*"
+  ],
+  "scripts": {
+    "build": "npm run clean && tsc",
+    "clean": "del ./build/*"
+  },
+  "devDependencies": {
+    "del-cli": "^6.0.0",
+    "typescript": "^5.8.3"
+  }
+}
