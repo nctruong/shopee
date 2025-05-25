@@ -1,12 +1,13 @@
 import axios from 'axios'
 import { useState, useEffect, useRef } from 'react'
+import buildClient from "../api/build-client.js";
 
 export default function useRequest({ url, method, body, onSuccess }) {
     const [errors, setErrors] = useState(null)
     const doRequest = async () => {
         try {
             setErrors(null)
-            const response = await axios.request({
+            const response = await buildClient.request({
                 method,
                 url,
                 data: body,
