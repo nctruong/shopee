@@ -1,6 +1,6 @@
 {
   "name": "@willnguyen/shopee-common",
-  "version": "1.0.8",
+  "version": "1.0.4",
   "description": "",
   "license": "ISC",
   "author": "willnguyen",
@@ -13,7 +13,7 @@
   "scripts": {
     "build": "npm run clean && tsc",
     "clean": "del ./build/*",
-    "publish": "git add . && git commit -m \"Updates\" && npm version patch && npm run build && npm publish"
+    "deploy": "npm run build && git add . && git commit -m 'version' && git push origin production && npm version patch && npm publish --access public"
   },
   "devDependencies": {
     "del-cli": "^6.0.0",
