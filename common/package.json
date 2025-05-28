@@ -13,7 +13,7 @@
   "scripts": {
     "build": "npm run clean && tsc",
     "clean": "del ./build/*",
-    "publish": "npm run build && git add . && git commit -m 'version' && git push origin production && npm version patch && npm publish --access public"
+    "publish": "git add . && git commit -m \"Updates\" && npm version patch && npm run build && npm publish"
   },
   "devDependencies": {
     "del-cli": "^6.0.0",
