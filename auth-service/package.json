@@ -23,6 +23,7 @@
     "@types/express": "^5.0.1",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/mongoose": "^5.11.96",
+    "@willnguyen/shopee-common": "^1.0.9",
     "body-parser": "^2.2.0",
     "cookie-session": "^2.1.0",
     "express": "^5.1.0",

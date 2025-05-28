@@ -1,9 +1,8 @@
 import express, {Request, Response} from "express";
 import {body} from "express-validator";
 import jwt from "jsonwebtoken";
-import {errorHandler} from "../middlewares/error-handler";
 import {User} from "../models/user";
-import {validateRequest} from "../middlewares/validate-request";
+import {validateRequest} from "@willnguyen/shopee-common";
 
 const router = express.Router();
 

@@ -1,4 +1,3 @@
-import buildClient from '../api/build-client'
 import {getCurrentUser} from "../lib/get-current-user.js";
 
 const LandingPage = ( {currentUser} ) => {

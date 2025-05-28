@@ -1,6 +1,5 @@
 import express, {Request, Response} from "express";
-import jwt from "jsonwebtoken";
-import { currentUser } from "../middlewares/current-user"
+import { currentUser } from "@willnguyen/shopee-common"
 
 const router = express.Router();
 
