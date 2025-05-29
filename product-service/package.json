@@ -19,10 +19,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@digital-market/common": "^3.0.12",
     "@types/cookie-session": "^2.0.44",
     "@types/express": "^4.17.17",
     "@types/jsonwebtoken": "^9.0.2",
+    "@willnguyen/shopee-common": "^1.0.9",
     "cookie-session": "^2.1.0",
     "express": "^4.21.2",
     "express-async-errors": "^3.1.1",
