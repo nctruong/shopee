@@ -1,6 +1,6 @@
-import { OrderCancelledEvent } from '../order-cancelled-event'
-import { EventNames } from '../event-names'
-import { Listener } from '../base-listener';
+import { OrderCancelledEvent } from '@willnguyen/shopee-common'
+import { EventNames } from '@willnguyen/shopee-common'
+import { Listener } from '@willnguyen/shopee-common';
 import { Product } from '../../models/product';
 import { ProductUpdatedPublisher } from '../publishers/product-updated-publisher';
 import {KafkaMessage} from "kafkajs";
