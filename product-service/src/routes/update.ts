@@ -6,10 +6,10 @@ import {
   requireAuth,
   NotAuthorizedError,
   BadRequestError,
-} from '@digital-market/common';
+} from '@willnguyen/shopee-common';
 import { Product } from '../models/product';
 import { ProductUpdatedPublisher } from '../events/publishers/product-updated-publisher';
-import { natsWrapper } from '../nats-wrapper';
+import { kafkaClient } from '../lib/kafka-wrapper'
 
 const router = express.Router();
 
@@ -43,7 +43,7 @@ router.put(
       price: req.body.price,
     });
     await product.save();
-    new ProductUpdatedPublisher(natsWrapper.client).publish({
+    new ProductUpdatedPublisher(kafkaClient).publish({
       id: product.id,
       title: product.title,
       price: product.price,

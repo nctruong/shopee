@@ -1,9 +1,9 @@
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
-import { requireAuth, validateRequest } from '@digital-market/common';
+import { requireAuth, validateRequest } from '@willnguyen/shopee-common';
 import { Product } from '../models/product';
 import { ProductCreatedPublisher } from '../events/publishers/product-created-publisher';
-import { natsWrapper } from '../nats-wrapper';
+import { kafkaClient } from '../lib/kafka-wrapper';
 
 const router = express.Router();
 
@@ -25,13 +25,18 @@ router.post(
       userId: req.currentUser!.id,
     });
     await product.save();
-    new ProductCreatedPublisher(natsWrapper.client).publish({
-      id: product.id,
-      title: product.title,
-      price: product.price,
-      userId: product.userId,
-      version: product.version,
-    });
+
+    try {
+      await new ProductCreatedPublisher(kafkaClient).publish({
+        id: product.id,
+        title: product.title,
+        price: product.price,
+        userId: product.userId,
+        version: product.version,
+      });
+    } catch (err) {
+      console.error('Failed to publish event to Kafka:', err);
+    }
 
     res.status(201).send(product);
   }

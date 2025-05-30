@@ -25,5 +25,12 @@ build:
         manual:
           - src: '**/*.js'
             dest: .
-
+    - image: willnguyen/product-service
+      context: product-service
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
 # build, listen, build...

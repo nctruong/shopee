@@ -1,6 +1,5 @@
 
 import { Kafka } from 'kafkajs'
-import {EventNames} from "./event-names";
 import { Event } from './event'
 
 export abstract class Publisher<T extends Event> {
