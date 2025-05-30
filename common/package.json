@@ -1,6 +1,6 @@
 {
   "name": "@willnguyen/shopee-common",
-  "version": "1.0.10",
+  "version": "1.0.12",
   "description": "",
   "license": "ISC",
   "author": "willnguyen",
@@ -26,6 +26,7 @@
     "cookie-session": "^2.1.0",
     "express": "^5.1.0",
     "express-validator": "^7.2.1",
-    "jsonwebtoken": "^9.0.2"
+    "jsonwebtoken": "^9.0.2",
+    "kafkajs": "^2.2.4"
   }
 }
