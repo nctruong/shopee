@@ -20,7 +20,8 @@ kubectl exec -it kafka-c56c74c6d-bnf7w -- /bin/bash
 /opt/bitnami/kafka/bin/kafka-console-consumer.sh --topic product.created --from-beginning --bootstrap-server localhost:9092
 
 ```
-
+## Ingress
+https://kubernetes.github.io/ingress-nginx/deploy/#quick-start
 
 ## Integrate Tailwindcss
 https://tailwindcss.com/docs/installation/framework-guides/nextjs

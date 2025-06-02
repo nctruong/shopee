@@ -33,4 +33,13 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
+
+    - image: willnguyen/order-service
+      context: order-service
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
 # build, listen, build...
