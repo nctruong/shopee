@@ -1,14 +1,14 @@
 import mongoose from 'mongoose';
 import {updateIfCurrentPlugin} from 'mongoose-update-if-current';
 
-enum OrderStatus {
+enum PaymentStatus {
     created = 'created',
     updated = 'updated',
     deleted = 'deleted',
     waitingPayments = 'waitingPayments',
 }
 
-const orderSchema = new mongoose.Schema(
+const paymentSchema = new mongoose.Schema(
     {
         userId: {
             type: String,
@@ -17,16 +17,15 @@ const orderSchema = new mongoose.Schema(
         status: {
             type: String,
             required: true,
-            enum: OrderStatus,
+            enum: PaymentStatus,
         },
-        products: {
-            type: Array,
-            required: true,
-        }
+        orderId: String,
+        provider: String,
+        amount: Number
     },
     {
         toJSON: {
-            transform(doc: Document, ret: Record<string, any>) {
+            transform(doc, ret) {
                 ret.id = ret._id;
                 delete ret._id;
                 delete ret.__v;
@@ -35,12 +34,14 @@ const orderSchema = new mongoose.Schema(
     }
 )
 
-interface OrderDoc extends mongoose.Document {
+interface PaymentDoc extends mongoose.Document {
     userId: string;
     status: string;
-    products: Array<string>
+    orderId: number;
+    provider: string;
+    amount: number;
 }
 
-const Order = mongoose.model<OrderDoc>('Order', orderSchema);
+const Payment = mongoose.model<PaymentDoc>('Order', paymentSchema);
 
-export { Order };
+export { Payment };
