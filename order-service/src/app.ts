@@ -1,33 +1,41 @@
-import express from 'express';
-import 'express-async-errors';
-import { json } from 'body-parser';
-import cookieSession from 'cookie-session';
-import { errorHandler, NotFoundError, currentUser } from '@willnguyen/shopee-common';
-import { deleteOrderRouter } from './routes/delete';
-import { indexOrderRouter } from './routes/index';
-import { newOrderRouter } from './routes/new';
-import { showOrderRouter } from './routes/show';
+import express, { RequestHandler } from 'express'
+import {createOrderRouter} from "./routes/new";
+import cookieSession from "cookie-session";
+import {json} from "body-parser";
+import rateLimit from "express-rate-limit";
+import {errorHandler, currentUser} from "@willnguyen/shopee-common";
+import mongoose from "mongoose";
+import {indexOrderRouter} from "./routes";
+import {showOrderRouter} from "./routes/show";
+import {updateOrderRouter} from "./routes/update";
 
-const app = express();
+const app = express()
 app.set('trust proxy', true);
 app.use(json());
 app.use(
-  cookieSession({
-    signed: false,
-    secure: false,
-  })
+    cookieSession({
+        signed: false,
+        secure: false,
+    }) as RequestHandler
 );
+const limiter = rateLimit({
+    windowMs: 60 * 1000, // 1m
+    max: 100
+})
+app.use(limiter)
 app.use(currentUser);
+app.use(createOrderRouter)
+app.use(indexOrderRouter)
+app.use(showOrderRouter)
+app.use(updateOrderRouter)
 
-app.use(deleteOrderRouter);
-app.use(indexOrderRouter);
-app.use(newOrderRouter);
-app.use(showOrderRouter);
+const connectMongoose = async () => {
+    try {
+        await mongoose.connect(process.env.MONGO_URI!);
+        console.log("MongoDB Connected");
+    } catch (error) {
+        console.log(error);
+    }
+}
 
-app.all('*', async (req, res) => {
-  throw new NotFoundError();
-});
-
-app.use(errorHandler);
-
-export { app };
+export { connectMongoose, app }

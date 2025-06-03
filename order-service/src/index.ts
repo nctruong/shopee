@@ -1,28 +1,24 @@
-import express, { RequestHandler } from 'express'
-import {createOrderRouter} from "./routes/new";
-import cookieSession from "cookie-session";
-import {json} from "body-parser";
-import rateLimit from "express-rate-limit";
-import {errorHandler, currentUser} from "@willnguyen/shopee-common";
+import mongoose from "mongoose";
+import {app} from "./app";
 
-const app = express()
-const port = process.env.PORT || 3000
-app.set('trust proxy', true);
-app.use(json());
-app.use(
-    cookieSession({
-        signed: false,
-        secure: false,
-    }) as RequestHandler
-);
-const limiter = rateLimit({
-    windowMs: 1 * 60 * 1000, // 1m
-    max: 100
-})
-app.use(limiter)
-app.use(currentUser);
-app.use(createOrderRouter)
+const start = async () => {
+    if (!process.env.JWT_KEY) {
+        throw new Error('JWT_KEY must be defined');
+    }
+    if (!process.env.MONGO_URI) {
+        throw new Error('MONGO_URI must be defined');
+    }
 
-app.listen(port, () => {
-    console.log(`Order Service is listening on port ${port}`)
-})
+    try {
+        await mongoose.connect(process.env.MONGO_URI);
+        console.log('Connected to MongoDb');
+    } catch (err) {
+        console.error(err);
+    }
+
+    app.listen(3000, () => {
+        console.log('Listening on port 3000!!!!!!!!');
+    });
+};
+
+start();

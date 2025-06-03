@@ -17,13 +17,12 @@ const start = async () => {
     // new OrderCancelledListener(kafkaClient).listen();
     await mongoose.connect(process.env.MONGO_URI);
     console.log('Connected to MongoDb');
+    app.listen(3000, () => {
+      console.log('Listening on port 3000!!!!!!!!');
+    });
   } catch (err) {
     console.error(err);
   }
-
-  app.listen(3000, () => {
-    console.log('Listening on port 3000!!!!!!!!');
-  });
 };
 
 start();

@@ -9,13 +9,12 @@ const start = async () => {
     try {
         await mongoose.connect('mongodb://auth-mongoose-service:27017/auth');
         console.log("MongoDB Connected");
+        app.listen(port, () => {
+            console.log(`Server started on port ${port} !`);
+        })
     } catch (error) {
         console.log(error);
     }
-
-    app.listen(port, () => {
-        console.log(`Server started on port ${port} !`);
-    })
 }
 
 start()
