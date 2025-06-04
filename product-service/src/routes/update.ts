@@ -30,10 +30,6 @@ router.put(
       throw new NotFoundError();
     }
 
-    if (product.orderId) {
-      throw new BadRequestError('Cannot edit a reserved product');
-    }
-
     if (product.userId !== req.currentUser!.id) {
       throw new NotAuthorizedError();
     }

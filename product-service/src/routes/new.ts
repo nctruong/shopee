@@ -1,11 +1,27 @@
-import express, { Request, Response } from 'express';
-import { body } from 'express-validator';
-import { requireAuth, validateRequest } from '@willnguyen/shopee-common';
-import { Product } from '../models/product';
-import { ProductCreatedPublisher } from '../events/publishers/product-created-publisher';
-import { kafkaClient } from '../lib/kafka-wrapper';
+import express, {Request, Response} from 'express';
+import {body} from 'express-validator';
+import {requireAuth, validateRequest} from '@willnguyen/shopee-common';
+import {ProductCreatedPublisher} from '../events/publishers/product-created-publisher';
+import {kafkaClient} from '../lib/kafka-wrapper';
+import {createProduct} from '../models/concerns/create-product';
+import {Inventory} from "../models/inventory";
+import {ProductDoc} from "../models/product";
 
 const router = express.Router();
+
+async function publishToBroker(product: ProductDoc) {
+  try {
+    await new ProductCreatedPublisher(kafkaClient).publish({
+      id: product.id,
+      title: product.title,
+      price: product.price,
+      userId: product.userId,
+      version: product.version,
+    });
+  } catch (err) {
+    console.error('Failed to publish event to Kafka:', err);
+  }
+}
 
 router.post(
   '/api/products',
@@ -18,27 +34,19 @@ router.post(
   ],
   validateRequest,
   async (req: Request, res: Response) => {
-    const { title, price } = req.body;
-    const product = Product.build({
+    const { title, price, quantity } = req.body;
+    const product = await createProduct({
       title,
       price,
       userId: req.currentUser!.id,
+      quantity
     });
-    await product.save();
+    const inventory = await Inventory.findById(product.id);
+    console.log(`inventory ${JSON.stringify(inventory)}`);
 
-    try {
-      await new ProductCreatedPublisher(kafkaClient).publish({
-        id: product.id,
-        title: product.title,
-        price: product.price,
-        userId: product.userId,
-        version: product.version,
-      });
-    } catch (err) {
-      console.error('Failed to publish event to Kafka:', err);
-    }
+    await publishToBroker(product);
 
-    res.status(201).send(product);
+    res.status(201).send(product.inventory);
   }
 );
 

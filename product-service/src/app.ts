@@ -9,6 +9,7 @@ import { createProductRouter } from './routes/new';
 import { showProductRouter } from './routes/show';
 import { indexProductRouter } from './routes/index';
 import { updateProductRouter } from './routes/update';
+import {showInventoryRouter} from "./routes/show-inventory";
 
 const app = express();
 app.set('trust proxy', true);
@@ -31,6 +32,7 @@ app.use((req, res, next) => {
 })
 
 app.use(createProductRouter);
+app.use(showInventoryRouter);
 app.use(showProductRouter);
 app.use(indexProductRouter);
 app.use(updateProductRouter);
