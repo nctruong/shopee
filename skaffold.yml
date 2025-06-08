@@ -50,4 +50,12 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
+    - image: willnguyen/timeout-service
+      context: timeout-service
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
 # build, listen, build...

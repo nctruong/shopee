@@ -1,9 +1,9 @@
 import {
-  Subjects,
+  EventNames,
   Publisher,
   ExpirationCompleteEvent,
-} from '@digital-market/common';
+} from '@willnguyen/shopee-common';
 
 export class ExpirationCompletePublisher extends Publisher<ExpirationCompleteEvent> {
-  subject: Subjects.ExpirationComplete = Subjects.ExpirationComplete;
+  topic: EventNames.ExpirationComplete = EventNames.ExpirationComplete;
 }

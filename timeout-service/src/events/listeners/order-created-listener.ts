@@ -1,17 +1,14 @@
-import { Listener, OrderCreatedEvent, Subjects } from '@digital-market/common';
-import { Message } from 'node-nats-streaming';
-import { queueGroupName } from './queue-group-name';
-import { expirationQueue } from '../../queues/expiration-queue';
+import { Listener, OrderCreatedEvent, EventNames } from '@willnguyen/shopee-common';
+import { timeoutQueue } from '../../queues/timeout-queue';
 
 export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
-  subject: Subjects.OrderCreated = Subjects.OrderCreated;
-  queueGroupName = queueGroupName;
+  topic: EventNames.OrderCreated = EventNames.OrderCreated;
 
-  async onMessage(data: OrderCreatedEvent['data'], msg: Message) {
+  async onMessage(data: OrderCreatedEvent['data'], msg: string) {
     const delay = new Date(data.expiresAt).getTime() - new Date().getTime();
     console.log('Waiting this many milliseconds to process the job:', delay);
 
-    await expirationQueue.add(
+    await timeoutQueue.add(
       {
         orderId: data.id,
       },
@@ -20,6 +17,5 @@ export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
       }
     );
 
-    msg.ack();
   }
 }

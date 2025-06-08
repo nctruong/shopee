@@ -1,5 +1,5 @@
 {
-  "name": "expiration",
+  "name": "timeout",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -18,10 +18,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@digital-market/common": "^3.0.12",
     "@types/bull": "^3.15.9",
+    "@willnguyen/shopee-common": "^1.0.15",
     "bull": "^3.29.3",
-    "node-nats-streaming": "^0.3.2",
+    "kafkajs": "^2.2.4",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.0.4"
   },
