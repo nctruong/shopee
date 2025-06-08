@@ -1,7 +1,7 @@
 import { EventNames } from './event-names';
 
 export interface ExpirationCompleteEvent {
-  subject: EventNames.ExpirationComplete;
+  topic: EventNames.ExpirationComplete;
   data: {
     orderId: string;
   };
