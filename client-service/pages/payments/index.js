@@ -19,7 +19,7 @@ const OrderIndex = ({data}) => {
 };
 
 OrderIndex.getInitialProps = async (context, client) => {
-    const {data} = await client.get('/api/orders', {
+    const {data} = await client.get('/api/payments', {
         params: {page: 1, pageSize: 5},
     });
 

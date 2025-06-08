@@ -8,14 +8,14 @@ interface OrderAttrs {
     userId: string;
     status: OrderStatus;
     expiresAt: Date;
-    product: ProductDoc;
+    products: ProductDoc[];
 }
 
 interface OrderDoc extends mongoose.Document {
     userId: string;
     status: OrderStatus;
     expiresAt: Date;
-    product: ProductDoc;
+    products: ProductDoc[];
     version: number;
 }
 
@@ -38,8 +38,8 @@ const orderSchema = new mongoose.Schema(
         expiresAt: {
             type: mongoose.Schema.Types.Date,
         },
-        product: {
-            type: mongoose.Schema.Types.ObjectId,
+        products: {
+            type: Array,
             ref: 'Product',
         },
     },
