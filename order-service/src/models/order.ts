@@ -1,11 +1,26 @@
 import mongoose from 'mongoose';
-import {updateIfCurrentPlugin} from 'mongoose-update-if-current';
+import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
+import { OrderStatus } from '@willnguyen/shopee-common';
+import { ProductDoc } from './product';
+export { OrderStatus };
 
-enum OrderStatus {
-    created = 'created',
-    updated = 'updated',
-    deleted = 'deleted',
-    waitingPayments = 'waitingPayments',
+interface OrderAttrs {
+    userId: string;
+    status: OrderStatus;
+    expiresAt: Date;
+    product: ProductDoc;
+}
+
+interface OrderDoc extends mongoose.Document {
+    userId: string;
+    status: OrderStatus;
+    expiresAt: Date;
+    product: ProductDoc;
+    version: number;
+}
+
+interface OrderModel extends mongoose.Model<OrderDoc> {
+    build(attrs: OrderAttrs): OrderDoc;
 }
 
 const orderSchema = new mongoose.Schema(
@@ -17,30 +32,34 @@ const orderSchema = new mongoose.Schema(
         status: {
             type: String,
             required: true,
-            enum: OrderStatus,
+            enum: Object.values(OrderStatus),
+            default: OrderStatus.Created,
         },
-        products: {
-            type: Array,
-            required: true,
-        }
+        expiresAt: {
+            type: mongoose.Schema.Types.Date,
+        },
+        product: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Product',
+        },
     },
     {
         toJSON: {
-            transform(doc: Document, ret: Record<string, any>) {
+            transform(doc: any, ret: any) {
                 ret.id = ret._id;
                 delete ret._id;
-                delete ret.__v;
             },
         },
     }
-)
+);
 
-interface OrderDoc extends mongoose.Document {
-    userId: string;
-    status: string;
-    products: Array<string>
-}
+orderSchema.set('versionKey', 'version');
+orderSchema.plugin(updateIfCurrentPlugin);
 
-const Order = mongoose.model<OrderDoc>('Order', orderSchema);
+orderSchema.statics.build = (attrs: OrderAttrs) => {
+    return new Order(attrs);
+};
+
+const Order = mongoose.model<OrderDoc, OrderModel>('Order', orderSchema);
 
 export { Order };
