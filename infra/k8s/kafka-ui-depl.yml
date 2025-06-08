@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-ui-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-ui
+  template:
+    metadata:
+      labels:
+        app: kafka-ui
+    spec:
+      containers:
+        - name: kafka-ui
+          image: provectuslabs/kafka-ui:latest
+          env:
+            - name: DYNAMIC_CONFIG_ENABLED
+              value: 'true'
+          
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-ui-srv
+spec:
+  selector:
+    app: kafka-ui
+  ports:
+    - name: db
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+

@@ -1,0 +1,17 @@
+{
+  "name": "test-lab",
+  "version": "1.0.0",
+  "description": "Play with data, testing performance.",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "kafka-ui": "kubectl port-forward service/kafka-ui-srv 8080",
+    "create-product": "k6 run --insecure-skip-tls-verify src/k6/create-products.js"
+  },
+  "dependencies": {
+    "axios": "^1.9.0",
+    "k6": "^0.0.0"
+  }
+}
