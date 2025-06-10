@@ -5,7 +5,7 @@ import buildClient from "../api/build-client.js";
 const AppComponent = ({ Component, pageProps, currentUser }) => {
     return <div>
         <Header currentUser={currentUser} />
-        <div className="container">
+        <div className="container mt-15">
             <Component currentUser={currentUser} {...pageProps} />
         </div>
     </div>

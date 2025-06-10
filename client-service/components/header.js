@@ -30,13 +30,13 @@ const Header = ({currentUser}) => {
                     <div className="flexspace-x-5">
                         <div className="flex flex-col items-left">
                             <span className="text-xl font-bold text-indigo-600"><h1>SHOPEE</h1></span>
-                            <span className="text-xl font-bold text-indigo-600">A demo of <Link
+                            <span className="text-xl font-bold text-gray"><Link
                                 className="navbar-brand ml-5" href="https://www.linkedin.com/in/willnguyendotdev/"
                                 style={{marginLeft: 15 + 'px'}}>
-                                Will Nguyen
+                                A demo of Will Nguyen.
+                                {/*<small>(Microservice, Kubernetes, NodeJS, Kafka. Keep UI simple)</small>*/}
                             </Link>
                             </span>
-                            <span className="text-xl font-bold text-indigo-600">Microservice, Kubernetes, NodeJS, Kafka. Keep UI simple</span>
                         </div>
                     </div>
                     <ul className="flex space-x-5">{links}</ul>

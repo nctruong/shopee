@@ -2,8 +2,8 @@ import http from 'k6/http';
 import { check, sleep } from 'k6';
 
 export const options = {
-    vus: 1, // virtual users
-    duration: '1s', // total test duration
+    vus: 10, // virtual users
+    duration: '10s', // total test duration
 };
 
 export function getSignedInCookie() {
