@@ -20,6 +20,12 @@ kubectl exec -it kafka-c56c74c6d-bnf7w -- /bin/bash
 /opt/bitnami/kafka/bin/kafka-console-consumer.sh --topic product.created --from-beginning --bootstrap-server localhost:9092
 
 ```
+
+### Debug
+```
+kubectl exec -it prometheus-9b998bffb-rjmjt -n monitoring -- /bin/sh
+kubectl delete pod -l app=prometheus -n monitoring
+```
 ## Ingress
 https://kubernetes.github.io/ingress-nginx/deploy/#quick-start
 

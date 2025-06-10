@@ -8,6 +8,8 @@
   "main": "index.js",
   "scripts": {
     "kafka-ui": "kubectl port-forward service/kafka-ui-srv 8080",
+    "granfana": "kubectl port-forward -n monitoring service/grafana-ui-srv 3000",
+    "prometheus": "kubectl port-forward -n monitoring service/prometheus 9090",
     "create-product": "k6 run --insecure-skip-tls-verify src/k6/create-products.js"
   },
   "dependencies": {
