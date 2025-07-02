@@ -11,7 +11,7 @@ export default function useRequest({ url, method, body, onSuccess }) {
             const response = await axios.request({
                 method,
                 url,
-                data: body,
+                data: {...body},
             })
             console.log(JSON.stringify(response))
             if (onSuccess) onSuccess(response.data)
