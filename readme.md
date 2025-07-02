@@ -22,6 +22,10 @@ This version is microservices app. It's in development.
 ## Demo Video/Pictures
 ![Product](/images/home.png)
 --
+![Product Show](/images/showproduct.png)
+--
+![Strip](/images/strip.png)
+--
 ![Product](/images/order.png) 
 --
 ![Product](/images/payment.png)
