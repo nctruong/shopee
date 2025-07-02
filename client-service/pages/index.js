@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { useEffect, useState } from "react";
+import randomImage from "../lib/random-image";
 
 const LandingPage = ({ currentUser, jsonData }) => {
     const { data, meta: { total, page, pageSize } } = jsonData;
@@ -12,25 +13,37 @@ const LandingPage = ({ currentUser, jsonData }) => {
     }, [page]);
 
     return (
-        <div className="max-w-7xl mx-auto p-6 bg-white rounded-lg shadow">
+        <div className="max-w-7xl mx-auto p-6 bg-white rounded-2xl ">
             <h3 className="text-2xl font-bold mb-2 text-gray-800">🛍️ Products</h3>
-            <h4 className="text-sm text-gray-600 mb-6">
+            <h4 className="text-sm text-gray-500 mb-6">
                 Total: {total}, Page: {page}, Page Size: {pageSize}
             </h4>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {data.map((product) => (
                     <div
                         key={product.id}
-                        className="p-4 border rounded-lg shadow-sm hover:shadow-md transition"
+                        className="group p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-lg transition"
                     >
-                        <h5 className="text-lg font-semibold text-gray-700">{product.title}</h5>
-                        <p className="text-sm text-gray-500">ID: {product.id}</p>
-                        <p className="text-sm text-gray-500">Price: ${product.price}</p>
-                        <p className="text-sm text-gray-500">Quantity: {product.quantity}</p>
+                        <div className="relative w-full h-48 overflow-hidden rounded-md mb-4">
+                            <img
+                                src={product?.imageUrl || randomImage()}
+                                alt={product.title}
+                                className="w-full h-full object-cover transform group-hover:scale-105 transition duration-300"
+                            />
+                        </div>
+
+                        <h5 className="text-lg font-semibold text-gray-800 truncate">{product.title}</h5>
+                        <p className="text-xs text-gray-400">ID: {product.id}</p>
+
+                        <div className="flex justify-between items-center mt-2">
+                            <span className="text-sm font-medium text-green-600">${product.price}</span>
+                            <span className="text-xs text-gray-500">Qty: {product.quantity}</span>
+                        </div>
+
                         <Link
                             href={`/products/${product.id}`}
-                            className="inline-block mt-3 text-blue-600 hover:underline"
+                            className="inline-block mt-4 text-sm text-blue-600 hover:text-blue-800 hover:underline transition"
                         >
                             View Details →
                         </Link>
@@ -38,16 +51,16 @@ const LandingPage = ({ currentUser, jsonData }) => {
                 ))}
             </div>
 
-            <div className="flex justify-center mt-8 space-x-2">
+            <div className="flex justify-center mt-10 space-x-2">
                 {Array.from({ length: totalPages }, (_, i) => (
                     <Link
                         key={i}
                         href={`/?page=${i + 1}&pageSize=${pageSize}`}
-                        className={`px-4 py-2 text-sm rounded border ${
+                        className={`px-4 py-2 text-sm font-medium rounded-full border transition ${
                             currentPage === i + 1
-                                ? 'bg-blue-600 text-white border-blue-600'
+                                ? 'bg-blue-600 text-white border-blue-600 shadow'
                                 : 'text-blue-600 border-blue-300 hover:bg-blue-100'
-                        } transition`}
+                        }`}
                     >
                         {i + 1}
                     </Link>

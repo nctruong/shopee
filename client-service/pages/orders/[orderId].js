@@ -11,6 +11,9 @@ const OrderShow = ({ order, currentUser }) => {
     method: 'post',
     body: {
       orderId: order.id,
+      userId: currentUser.id,
+      provider: "strip",
+      amount: 10000
     },
     onSuccess: () => Router.push('/orders'),
   });

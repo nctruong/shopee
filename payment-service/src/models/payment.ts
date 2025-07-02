@@ -10,15 +10,8 @@ enum PaymentStatus {
 
 const paymentSchema = new mongoose.Schema(
     {
-        userId: {
-            type: String,
-            required: true,
-        },
-        status: {
-            type: String,
-            required: true,
-            enum: PaymentStatus,
-        },
+        userId: {type: String, required: true},
+        status: {type: String, required: true, enum: PaymentStatus},
         orderId: String,
         provider: String,
         amount: Number
@@ -31,6 +24,7 @@ const paymentSchema = new mongoose.Schema(
                 delete ret.__v;
             },
         },
+        timestamps: true
     }
 )
 
@@ -42,6 +36,6 @@ interface PaymentDoc extends mongoose.Document {
     amount: number;
 }
 
-const Payment = mongoose.model<PaymentDoc>('Order', paymentSchema);
+const Payment = mongoose.model<PaymentDoc>('Payment', paymentSchema);
 
-export { Payment };
+export {Payment};

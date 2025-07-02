@@ -11,7 +11,7 @@ const OrderIndex = ({jsonData}) => {
         setCurrentPage(page);
     }, [page]);
     return (
-        <div className="max-w-7xl mx-auto p-6 bg-white rounded-lg shadow">
+        <div className="max-w-7xl mx-auto p-6 bg-white rounded-lg ">
             <h3 className="text-2xl font-bold mb-2 text-gray-800">📦 Order</h3>
             <h4 className="text-sm text-gray-600 mb-6">
                 Total: {total}, Page: {page}, Page Size: {pageSize}
@@ -21,7 +21,7 @@ const OrderIndex = ({jsonData}) => {
                 {data.map((order) => (
                     <div
                         key={order.id}
-                        className="p-4 border rounded-lg shadow-sm hover:shadow-md transition"
+                        className="group p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-lg transition"
                     >
                         <h5 className="text-lg font-semibold text-gray-700">{order.userId}</h5>
                         <p className="text-sm text-gray-500">ID: {order.status}</p>

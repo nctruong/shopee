@@ -3,9 +3,9 @@ import Header from "../components/header";
 import buildClient from "../api/build-client.js";
 
 const AppComponent = ({ Component, pageProps, currentUser }) => {
-    return <div>
+    return <div className="">
         <Header currentUser={currentUser} />
-        <div className="container mt-15">
+        <div className="max-w-7xl mx-auto p-6 mt-5">
             <Component currentUser={currentUser} {...pageProps} />
         </div>
     </div>

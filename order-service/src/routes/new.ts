@@ -1,8 +1,9 @@
 import express, {Request, Response, NextFunction} from 'express';
-import {OrderStatus, requireAuth, validateRequest} from '@willnguyen/shopee-common';
-import {Order} from '../models/order'
+import {BadRequestError, NotFoundError, OrderStatus, requireAuth, validateRequest} from '@willnguyen/shopee-common';
+import {Order, OrderItem} from '../models/order'
 import {OrderCreatedPublisher} from "../events/publishers/order-created-publisher";
 import {kafkaClient} from "../lib/kafka-wrapper";
+import axiosClient from "../lib/axiosClient";
 
 const router = express.Router()
 
@@ -13,24 +14,40 @@ interface OrderedProduct {
 const orderedProducts: OrderedProduct[] = []
 router.post('/api/orders', requireAuth, validateRequest,
     async (req: Request, res: Response) => {
-        const {userId, products} = req.body;
-        const status = OrderStatus.Created;
-        const order = new Order({userId, status, products});
+        const { productId } = req.body;
+
+        // const productRes = await axiosClient.get(`/api/products/${productId}`);
+        // if (productRes.status == 200) {
+        //     const product = productRes.body
+        //     console.log(`product ${product}`)
+        // }
+        //
+        // if (product !== undefined) {
+        //     throw new NotFoundError();
+        // }
+
+        // Calculate an expiration date for this order
+        const expiration = new Date();
+        expiration.setSeconds(expiration.getSeconds() + 20);
+
+        const orderItem: OrderItem = {
+            productId, quantity: 1, price: 10
+        }
+        const order = Order.build({
+            userId: req.currentUser!.id,
+            status: OrderStatus.Created,
+            expiresAt: expiration,
+            totalPrice: 10,
+            orderItems: [ orderItem ]
+        });
         await order.save();
-
-        products.forEach((product: OrderedProduct) => {
-            orderedProducts.push(product);
-        })
-
-        const expiresAt = new Date();
-        expiresAt.setSeconds(expiresAt.getSeconds() + 20);
 
         new OrderCreatedPublisher(kafkaClient).publish({
             id: order.id,
             version: order.version,
             status: order.status,
             userId: order.userId,
-            expiresAt: expiresAt,
+            expiresAt: order.expiresAt.toISOString(),
             products: orderedProducts
         });
 

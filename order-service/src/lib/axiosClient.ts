@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const axiosClient = axios.create({
-    baseURL: 'http://localhost:3001', // 👈 Your backend base URL
-    withCredentials: true, // if you're using cookies
+    baseURL: 'https://shopee.dev',
+    withCredentials: true,
     headers: {
         'Content-Type': 'application/json',
     },

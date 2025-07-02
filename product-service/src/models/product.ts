@@ -4,20 +4,20 @@ import { Inventory } from './inventory';
 
 interface ProductAttrs {
     title: string;
+    description?: string;
     price: number;
     quantity: number;
     userId: string;
     version?: number;
-    inventory?: typeof Inventory
 }
 
 interface ProductDoc extends mongoose.Document {
     title: string;
+    description?: string;
     price: number;
     quantity: number;
     userId: string;
     version: number;
-    inventory?: typeof Inventory | null | undefined;
 }
 
 interface ProductModel extends mongoose.Model<ProductDoc> {
@@ -26,22 +26,11 @@ interface ProductModel extends mongoose.Model<ProductDoc> {
 
 const productSchema = new mongoose.Schema(
     {
-        title: {
-            type: String,
-            required: true,
-        },
-        price: {
-            type: Number,
-            required: true,
-        },
-        quantity: {
-            type: Number,
-            required: true,
-        },
-        userId: {
-            type: String,
-            required: true,
-        },
+        title: {type: String, required: true},
+        description: String,
+        price: {type: Number, required: true},
+        quantity: {type: Number, required: true},
+        userId: {type: String, required: true},
     },
     {
         toJSON: {
@@ -50,6 +39,7 @@ const productSchema = new mongoose.Schema(
                 delete ret._id;
             },
         },
+        timestamps: { createdAt: true, updatedAt: false }
     }
 );
 productSchema.set('versionKey', 'version');

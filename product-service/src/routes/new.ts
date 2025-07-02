@@ -46,7 +46,7 @@ router.post(
 
     await publishToBroker(product);
 
-    res.status(201).send(product.inventory);
+    res.status(201).send(product);
   }
 );
 
