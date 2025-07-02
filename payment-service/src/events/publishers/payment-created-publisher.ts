@@ -1,5 +1,5 @@
-import { Subjects, Publisher, PaymentCreatedEvent } from '@digital-market/common';
+import { Publisher, PaymentCreatedEvent, EventNames } from '@willnguyen/shopee-common';
 
 export class PaymentCreatedPublisher extends Publisher<PaymentCreatedEvent> {
-  subject: Subjects.PaymentCreated = Subjects.PaymentCreated;
+  topic: EventNames.PaymentCreated = EventNames.PaymentCreated;
 }

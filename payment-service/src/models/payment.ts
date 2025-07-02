@@ -14,7 +14,11 @@ const paymentSchema = new mongoose.Schema(
         status: {type: String, required: true, enum: PaymentStatus},
         orderId: String,
         provider: String,
-        amount: Number
+        amount: Number,
+        stripeId: {
+            required: true,
+            type: String,
+        },
     },
     {
         toJSON: {
@@ -34,6 +38,7 @@ interface PaymentDoc extends mongoose.Document {
     orderId: number;
     provider: string;
     amount: number;
+    stripeId: string;
 }
 
 const Payment = mongoose.model<PaymentDoc>('Payment', paymentSchema);
