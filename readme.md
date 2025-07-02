@@ -19,7 +19,13 @@ This version is microservices app. It's in development.
 - [CI/CD Pipeline](#cicd-pipeline)
 <!--toc:end-->
 
-## Demo Video
+## Demo Video/Pictures
+![Product](/images/home.png)
+--
+![Product](/images/order.png) 
+--
+![Product](/images/payment.png)
+--
 
 ## Repository Structure
 
