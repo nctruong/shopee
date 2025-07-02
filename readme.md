@@ -26,6 +26,8 @@ This version is microservices app. It's in development.
 --
 ![Strip](/images/strip.png)
 --
+![Strip](/images/strip-transaction.png)
+--
 ![Product](/images/order.png) 
 --
 ![Product](/images/payment.png)
