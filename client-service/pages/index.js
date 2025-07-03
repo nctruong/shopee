@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { useEffect, useState } from "react";
+import {Fragment, useEffect, useState} from "react";
 import randomImage from "../lib/random-image";
 
 const LandingPage = ({ currentUser, jsonData }) => {
@@ -52,19 +52,39 @@ const LandingPage = ({ currentUser, jsonData }) => {
             </div>
 
             <div className="flex justify-center mt-10 space-x-2">
-                {Array.from({ length: totalPages }, (_, i) => (
-                    <Link
-                        key={i}
-                        href={`/?page=${i + 1}&pageSize=${pageSize}`}
-                        className={`px-4 py-2 text-sm font-medium rounded-full border transition ${
-                            currentPage === i + 1
-                                ? 'bg-blue-600 text-white border-blue-600 shadow'
-                                : 'text-blue-600 border-blue-300 hover:bg-blue-100'
-                        }`}
-                    >
-                        {i + 1}
-                    </Link>
-                ))}
+                {Array.from({ length: totalPages }, (_, i) => i + 1)
+                    .filter((pageNum) => {
+                        if (
+                            pageNum === 1 || // always show first
+                            pageNum === totalPages || // always show last
+                            Math.abs(pageNum - currentPage) <= 1 // show current, prev, next
+                        ) {
+                            return true;
+                        }
+                        return false;
+                    })
+                    .map((pageNum, idx, arr) => {
+                        const isGap =
+                            idx > 0 && pageNum - arr[idx - 1] > 1;
+
+                        return (
+                            <Fragment key={pageNum}>
+                                {isGap && (
+                                    <span className="px-2 py-2 text-sm text-gray-400">…</span>
+                                )}
+                                <Link
+                                    href={`/?page=${pageNum}&pageSize=${pageSize}`}
+                                    className={`px-4 py-2 text-sm font-medium rounded-full border transition ${
+                                        currentPage === pageNum
+                                            ? 'bg-blue-600 text-white border-blue-600 shadow'
+                                            : 'text-blue-600 border-blue-300 hover:bg-blue-100'
+                                    }`}
+                                >
+                                    {pageNum}
+                                </Link>
+                            </Fragment>
+                        );
+                    })}
             </div>
         </div>
     );
