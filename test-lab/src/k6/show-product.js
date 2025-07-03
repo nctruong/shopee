@@ -27,7 +27,7 @@ export function getSignedInCookie() {
 export default function () {
     const cookie = getSignedInCookie()
 
-    const url = 'https://shopee.dev/api/products';
+    const url = 'https://shopee.dev/products/6866493804bec095c566c405';
     const payload = JSON.stringify({
         title: "macbook 6",
         price: 1000,

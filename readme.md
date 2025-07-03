@@ -52,7 +52,9 @@ The repository is organized into distinct directories, each serving a specific p
 ## System Architecture
 ## Installation and Usage
 ### Development
-
+### Test
+Stress test
+```k6 run src/k6/create-products.js --insecure-skip-tls-verify```
 ### Production
 Using Terraform to deploy into AWS cluster (updating...)
 ## CI/CD Pipeline
